@@ -22,5 +22,3 @@ pip install -r requirements.txt
 ```terminal
 uvicorn app:app --reload
 ```
-
-- ## Go to the url http://127.0.0.1:8000/docs for making predictions
