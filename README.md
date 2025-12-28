@@ -18,10 +18,12 @@ Here, we've first developed a ML model and saved it using pickle, and then we've
 pip install -r requirements.txt
 ```
 
-- command to run the API:-
+- command to run the Application:-
 ```terminal
 uvicorn app:app --reload
 ```
+
+- Now, go to the url http://127.0.0.1:8000
 ``` Text
-Go to the url/docs for making predictions
+Go to the url http://127.0.0.1:8000/docs for making predictions
 ```
