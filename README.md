@@ -23,7 +23,4 @@ pip install -r requirements.txt
 uvicorn app:app --reload
 ```
 
-- Now, go to the url http://127.0.0.1:8000
-``` Text
-Go to the url http://127.0.0.1:8000/docs for making predictions
-```
+- ## Go to the url http://127.0.0.1:8000/docs for making predictions
