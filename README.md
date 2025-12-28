@@ -3,6 +3,7 @@
 # A quick start:
 ```text
 Here, we've first developed a ML model and saved it using pickle, and then we've used FastAPI with Pydantic to serve it as an API.
+Next up, we've created a minimal usage frontend using streamlit to test the api endpoint.
 ```
 
 # Stacks used:
@@ -11,6 +12,9 @@ Here, we've first developed a ML model and saved it using pickle, and then we've
 - Pandas
 - sklearn
 - pickle
+- streamlit
+- uvicorn
+- requests
 
 
 - Create a virtual Environment, activate it and then run the following command:-
@@ -21,4 +25,6 @@ pip install -r requirements.txt
 - command to run the Application:-
 ```terminal
 uvicorn app:app --reload
+
+streamlit run frontend.py
 ```
