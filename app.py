@@ -30,14 +30,29 @@ tier_2_cities = [
 
 
 class UserInput(BaseModel):
-    age:Annotated[int, Field(..., gt=0, lt=120, description="Age of the person")]
-    weight: Annotated[float,Field(..., gt=0, description="Weight of the person in Kgs", strict=True)]
-    height: Annotated[float,Field(..., gt=1, description="Height of the person in meters", strict=True)]
-    income_lpa: Annotated[float,Field(...,description="Income of the person in LPA", strict=True)]
-    smoker: Annotated[bool,Field(..., description="Whether the person is a smoker or not",strict=True)]
-    city: Annotated[str,Field(..., description="City of the person")]
-    occupation: Annotated[str,Literal['retired', 'freelancer', 'student', 'government_job',
-       'business_owner', 'unemployed', 'private_job'],Field(..., description="Occupation of the person", examples=["retired", "unemployed",])]
+    age:Annotated[int,
+                  Field(..., gt=0, lt=120, description="Age of the person")
+                  ]
+    weight: Annotated[float,
+                      Field(..., gt=0, description="Weight of the person in Kgs", strict=True)
+                      ]
+    height: Annotated[float,
+                      Field(..., gt=1, description="Height of the person in meters", strict=True)
+                      ]
+    income_lpa: Annotated[float,
+                          Field(...,description="Income of the person in LPA", strict=True)
+                          ]
+    smoker: Annotated[bool,
+                      Field(..., description="Whether the person is a smoker or not",strict=True)
+                      ]
+    city: Annotated[str,
+        Field(..., description="City of the person")
+        ]
+    occupation: Annotated[str,
+                          Literal['retired', 'freelancer', 'student', 'government_job',
+       'business_owner', 'unemployed', 'private_job']
+       ,Field(..., description="Occupation of the person", examples=["retired", "unemployed",])
+       ]
 
 
     @computed_field
@@ -84,21 +99,19 @@ def home():
 
 # Now, the main thing and thet is the route:
 @app.post("/predict")
-def predict_premium(data:UserInput):
+def predict_premium(user_data:UserInput):
     # We'll have to convert the user input to a pandas dataframe.
-    if (data.bmi is None or data.age_group is None or data.lifestyle_risk is None or data.city_tier is None or data.income_lpa is None or data.occupation is None):
-        raise HTTPException(status_code=400, detail="All fields are required")
     input_df = pd.DataFrame([{
-         "bmi":data.bmi,
-         "age_group":data.age_group,
-         "lifestyle_risk":data.lifestyle_risk,
-         "city_tier":data.city_tier,
-         "income_lpa":data.income_lpa,
-         "occupation":data.occupation
+         "bmi":user_data.bmi,
+         "age_group":user_data.age_group,
+         "lifestyle_risk":user_data.lifestyle_risk,
+         "city_tier":user_data.city_tier,
+         "income_lpa":user_data.income_lpa,
+         "occupation":user_data.occupation
     }])
 
     prediction = model.predict(input_df)
-    # Since the paramters and the pipeline of the model were dumped together, so that gets implemented as well. 
+    # Since the paramters and the pipeline of the model were dumped together, so the pipeline automatically gets implemented. 
     print(prediction)
 
     return JSONResponse(content={"insurance_premium_category":prediction[0]})
