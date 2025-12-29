@@ -9,9 +9,9 @@ app = FastAPI()
   
 
 
-# @app.get("/")
-# def home():
-#     return JSONResponse(status_code=200, content={"message":"Welcome to the prediction API, go to /predict or /docs for making predictions"})
+@app.get("/")
+def home():
+    return {"message":"Welcome to the prediction API, go to /docs for making predictions"}
 
 # Now, the main thing and thet is the route:
 @app.post("/predict",response_model=Prediction_response)
