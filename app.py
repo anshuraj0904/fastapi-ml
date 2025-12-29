@@ -85,9 +85,9 @@ class UserInput(BaseModel):
     @computed_field
     @property
     def city_tier(self)->int:
-        if self.city in tier_1_cities:
+        if self.city.strip().lower() in tier_1_cities.lower():
             return 1
-        elif self.city in tier_2_cities:
+        elif self.city.strip().lower() in tier_2_cities.lower():
             return 2
         return 3
     
