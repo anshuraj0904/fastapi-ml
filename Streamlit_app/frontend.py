@@ -25,6 +25,13 @@ occupation = st.selectbox(
 
 
 
+# Caching the process of creating the dataframe to make this efficient
+@st.cache_data
+def make_df(class_probs):
+    return pd.DataFrame(
+        class_probs.items(),
+        columns=["Class", "Probability"]
+    )
 
 if st.button("Predict Premium Category"):
     input_data = {
@@ -42,13 +49,13 @@ if st.button("Predict Premium Category"):
         response = requests.post(APP_URI,json=input_data)
         if response.status_code == 200:
             result = response.json()
-            data = result['insurance_premium_category']['class_probabilities']
+            df = make_df(result['insurance_premium_category']['class_probabilities'])
 
-            df = pd.DataFrame(list(data.items()),columns=["Class", "Probability"])
             st.success(f"Predicted Insurance Premium Category: {result['insurance_premium_category']['predicted category']}")
             st.warning(f"Confidence: {result['insurance_premium_category']['confidence']}")
             st.markdown("### Class Probabilities")
-            st.table(df)
+            st.dataframe(df, hide_index=True)
+
 
         else:
             st.error(f"API Error: {response.status_code} - {response.text}")
