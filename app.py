@@ -3,6 +3,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse 
 from schema.user_model import UserInput  
 from ml_model.predict import model, predict_output
+from schema.prediction_response import Prediction_response
 # Creating an instance of the FastAPI.
 app = FastAPI()
   
@@ -13,7 +14,7 @@ app = FastAPI()
 #     return JSONResponse(status_code=200, content={"message":"Welcome to the prediction API, go to /predict or /docs for making predictions"})
 
 # Now, the main thing and thet is the route:
-@app.post("/predict")
+@app.post("/predict",response_model=Prediction_response)
 def predict_premium(user_data:UserInput):
     # We'll have to convert the user input to a pandas dataframe.
     user_input = {
