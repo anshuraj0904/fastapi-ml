@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import pandas as pd
 
 APP_URI = "http://127.0.0.1:8000/predict"
 
@@ -41,7 +42,14 @@ if st.button("Predict Premium Category"):
         response = requests.post(APP_URI,json=input_data)
         if response.status_code == 200:
             result = response.json()
-            st.success(f"Predicted Insurance Premium Category: {result['insurance_premium_category']}")
+            data = result['insurance_premium_category']['class_probabilities']
+
+            df = pd.DataFrame(list(data.items()),columns=["Class", "Probability"])
+            st.success(f"Predicted Insurance Premium Category: {result['insurance_premium_category']['predicted category']}")
+            st.warning(f"Confidence: {result['insurance_premium_category']['confidence']}")
+            st.markdown("### Class Probabilities")
+            st.table(df)
+
         else:
             st.error(f"API Error: {response.status_code} - {response.text}")
 

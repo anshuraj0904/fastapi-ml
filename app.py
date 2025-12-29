@@ -25,5 +25,11 @@ def predict_premium(user_data:UserInput):
          "occupation":user_data.occupation
     }
 
-    prediction = predict_output(user_input)
-    return JSONResponse(status_code=200,content={"insurance_premium_category":prediction})
+
+    # Putting the response in a try-except block:
+    try:
+        prediction = predict_output(user_input)
+        return JSONResponse(status_code=200,content={"insurance_premium_category":prediction})
+    
+    except Exception as e:
+        return JSONResponse(status_code=500,content={"error":str(e)})
