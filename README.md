@@ -23,8 +23,11 @@ pip install -r requirements.txt
 ```
 
 - command to run the Application:-
-```terminal
+- 1. The Backend
+```bash
 uvicorn app:app --reload
-
+```
+- 2. The Frontend
+``` bash 
 streamlit run frontend.py
 ```
